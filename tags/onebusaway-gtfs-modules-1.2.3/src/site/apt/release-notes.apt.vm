@@ -1,0 +1,63 @@
+Release Notes
+
+* ${currentVersion}
+
+  * More documentation for {{{./onebusaway-gtfs-transformer-cli.html}onebusaway-gtfs-transformer-cli}}.
+  
+  * Better support for entity id matching in <<<onebusaway-gtfs-transformer-cli>>>.
+
+  * Full Documentation: {{${site_base_url}/onebusaway-gtfs-modules/${currentVersion}/}}
+
+* 1.2.2
+
+  * Add sorting of calendar.txt and calendar_dates.txt entries by service id when writing to output
+
+  * Add additional manipulation methods to {{{./apidocs/org/onebusaway/gtfs/model/calendar/ServiceDate.html} ServiceDate}}
+  
+  * Initial entry for {{{./apidocs/org/onebusaway/gtfs/impl/GenericMutableDaoWrapper.html} GenericMutableDaoWrapper}}
+  
+  * Initial entry for {{{./apidocs/org/onebusaway/gtfs_transformer/services/GtfsEntityTransformStrategy.html} GtfsEntityTransformStrategy}}
+  
+  * Support in gtfs-transformer for the new entity tranformation strategy
+
+  * Full Documentation: {{${site_base_url}/onebusaway-gtfs-modules/1.2.2/}}
+
+* 1.2.1
+
+  * Support for {{{http://groups.google.com/group/gtfs-changes/browse_frm/thread/42a6863ae3661bba/d65149383c0d65e5?lnk=gst&q=bicycle#d65149383c0d65e5} bicycle accessibility}} proposal.
+  
+  * Support for {{{http://groups.google.com/group/gtfs-changes/browse_frm/thread/e6ef325c1ae92b6c} exact_times}} proposal.
+  
+  * Bump to {{{${site_base_url}/onebusaway-csv-entities/1.0.1/} onebusaway-csv-entities-1.0.1}}.
+  
+  * Add {{{./apidocs/org/onebusaway/gtfs/model/AgencyAndIdInstance.html} AgencyAndIdInstance}} class.
+  
+  * Full Documentation: {{${site_base_url}/onebusaway-gtfs-modules/1.2.1/}}
+  
+* 1.2.0
+
+  * Initial Site Documentation
+  
+  * Bump to require Maven 3
+
+  * Refactor CSV entity reading and writing support into its own module: {{${site_base_url}/onebusaway-csv-entities/1.0.0/}}
+
+  * Full Documentation: {{${site_base_url}/onebusaway-gtfs-modules/1.2.0/}}
+
+* 1.1.11
+
+* 1.1.10
+
+* 1.1.9
+
+* 1.1.8
+
+* 1.1.7
+
+* 1.1.6
+
+* 1.1.5
+
+* 1.1.4
+
+* 1.1.3
