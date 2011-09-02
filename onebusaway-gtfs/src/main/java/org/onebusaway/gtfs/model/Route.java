@@ -1,49 +1,73 @@
 package org.onebusaway.gtfs.model;
 
-public final class Route extends IdentityBean<AgencyAndId> {
+import org.hibernate.annotations.AccessType;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+// import org.onebusaway.common.model.IdentityBean;
+//import org.onebusaway.csv.CsvField;
+//import org.onebusaway.csv.CsvFields;
+import org.onebusaway.gtfs.serialization.mappings.RouteAgencyFieldMappingFactory;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "gtfs_routes")
+@AccessType("field")
+@org.hibernate.annotations.Entity(mutable = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@CsvFields(filename = "routes.txt", prefix = "route_")
+public class Route extends IdentityBean<AgencyAndId> {
 
   private static final long serialVersionUID = 1L;
 
+  //  @Id
+  // @AccessType("property")
+  @EmbeddedId
+      @AttributeOverrides( {
+	      @AttributeOverride(name = "agencyId", column = @Column(name = "agencyId", length = 50)),
+		  @AttributeOverride(name = "id", column = @Column(name = "id"))})
+      @AccessType("property")
   private AgencyAndId id;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  // @CsvField(name = "agency_id", mapping = RouteAgencyFieldMappingFactory.class, optional = true)
   private Agency agency;
 
   private String shortName;
 
+  // @CsvField(optional = true)
   private String longName;
 
+  // "desc" is a mysql reserved keyword
+  @Column(name = "description")
+      // @CsvField(optional = true)
   private String desc;
 
   private int type;
 
+  // @CsvField(optional = true)
   private String url;
 
+  // @CsvField(optional = true)
   private String color;
 
+  // @CsvField(optional = true)
   private String textColor;
-
-  public Route() {
-
-  }
-
-  public Route(Route r) {
-    this.id = r.id;
-    this.agency = r.agency;
-    this.shortName = r.shortName;
-    this.longName = r.longName;
-    this.desc = r.desc;
-    this.type = r.type;
-    this.url = r.url;
-    this.color = r.color;
-    this.textColor = r.textColor;
-  }
 
   public AgencyAndId getId() {
     return id;
   }
 
   public void setId(AgencyAndId id) {
-    this.id = id;
+      this.id = id;
   }
 
   public Agency getAgency() {
@@ -112,6 +136,6 @@ public final class Route extends IdentityBean<AgencyAndId> {
 
   @Override
   public String toString() {
-    return "<Route " + id + " " + shortName + ">";
+    return this.shortName;
   }
 }

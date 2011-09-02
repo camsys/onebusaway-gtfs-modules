@@ -6,12 +6,11 @@
     
     <name>onebusaway-gtfs-hibernate</name>
     <description>A Java library for reading and writing Google Transit Feed Spec feeds into a database</description>
-    <url>http://code.google.com/p/onebusaway/wiki/ModuleGtfs</url>
 
     <parent>
         <groupId>org.onebusaway</groupId>
         <artifactId>onebusaway-gtfs-modules</artifactId>
-        <version>1.1.9</version>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -25,18 +24,17 @@
             <artifactId>hibernate-core</artifactId>
             <version>3.3.1.GA</version>
         </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.0.0</version>
+        </dependency>
 
         <!--  Test Scope -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.0.0-rc9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -51,6 +49,12 @@
             <version>1.5.6</version>
             <scope>test</scope>
         </dependency>
+<dependency>
+    <groupId>javassist</groupId>
+    <artifactId>javassist</artifactId>
+    <version>3.1</version>
+    <scope>test</scope>
+</dependency>
     </dependencies>
 
 </project>

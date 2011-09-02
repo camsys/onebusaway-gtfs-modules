@@ -6,15 +6,27 @@
     
     <name>onebusaway-gtfs</name>
     <description>A Java library for reading and writing Google Transit Feed Spec feeds</description>
-    <url>http://code.google.com/p/onebusaway/wiki/ModuleGtfs</url>
 
     <parent>
         <groupId>org.onebusaway</groupId>
         <artifactId>onebusaway-gtfs-modules</artifactId>
-        <version>1.1.9</version>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
+
+        <!-- Database Persistence -->
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>3.3.1.GA</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <version>3.4.0.GA</version>
+      </dependency>
+
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>

@@ -1,9 +1,27 @@
 package org.onebusaway.gtfs.model;
 
-public final class Agency extends IdentityBean<String> {
+import org.hibernate.annotations.AccessType;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.onebusaway.gtfs.serialization.mappings.AgencyIdFieldMappingFactory;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "gtfs_agencies")
+@AccessType("field")
+@org.hibernate.annotations.Entity(mutable = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@CsvFields(filename = "agency.txt", prefix = "agency_")
+public class Agency extends IdentityBean<String> {
 
   private static final long serialVersionUID = 1L;
 
+  @Id
+  @AccessType("property")
+//  @CsvField(optional = true, mapping = AgencyIdFieldMappingFactory.class)
   private String id;
 
   private String name;
@@ -12,22 +30,11 @@ public final class Agency extends IdentityBean<String> {
 
   private String timezone;
 
+//  @CsvField(optional = true)
   private String lang;
 
+//  @CsvField(optional = true)
   private String phone;
-
-  public Agency() {
-
-  }
-
-  public Agency(Agency a) {
-    this.id = a.id;
-    this.name = a.name;
-    this.url = a.url;
-    this.timezone = a.timezone;
-    this.lang = a.lang;
-    this.phone = a.phone;
-  }
 
   public String getId() {
     return id;
@@ -75,9 +82,5 @@ public final class Agency extends IdentityBean<String> {
 
   public void setPhone(String phone) {
     this.phone = phone;
-  }
-
-  public String toString() {
-    return "<Agency " + this.id + ">";
   }
 }

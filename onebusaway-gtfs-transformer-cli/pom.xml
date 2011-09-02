@@ -6,12 +6,11 @@
 
     <name>onebusaway-gtfs-transformer-cli</name>
     <description>A Java application for transforming Google Transit Feed Spec feeds</description>
-    <url>http://code.google.com/p/onebusaway/wiki/ModuleGtfs</url>
 
     <parent>
         <groupId>org.onebusaway</groupId>
         <artifactId>onebusaway-gtfs-modules</artifactId>
-        <version>1.1.9</version>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>

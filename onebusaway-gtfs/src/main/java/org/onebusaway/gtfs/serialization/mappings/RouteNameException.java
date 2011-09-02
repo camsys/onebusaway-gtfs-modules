@@ -15,7 +15,10 @@ public class RouteNameException extends CsvEntityException {
 
   private static final long serialVersionUID = 1L;
 
-  public RouteNameException(AgencyAndId routeId) {
+  public RouteNameException(String routeId) {
     super(Route.class,"either shortName or longName must be set for route=" + routeId);
+  }
+  public RouteNameException(AgencyAndId routeId) {
+      super(Route.class,"either shortName or longName must be set for route=" + routeId.toString());
   }
 }
