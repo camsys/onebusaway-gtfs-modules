@@ -379,19 +379,4 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
     _ops.clearAllEntitiesForType(type);
   }
 
-  @Override
-  public ServiceCalendar getFirstCalendarForServiceId(AgencyAndId serviceId) {
-
-    List<ServiceCalendar> calendars = _ops.findByNamedQueryAndNamedParam(
-        "calendarsForServiceId", "serviceId", serviceId);
-
-    switch (calendars.size()) {
-      case 0:
-        return null;
-      case 1:
-        return calendars.get(0);
-      default:
-        return calendars.get(0);
-    }
-  }
 }

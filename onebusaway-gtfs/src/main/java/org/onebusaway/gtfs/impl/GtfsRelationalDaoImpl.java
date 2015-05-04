@@ -42,6 +42,8 @@ import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 import org.onebusaway.gtfs.services.GtfsMutableRelationalDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A in-memory implementation of GtfsRelationalDaoImpl. It's super fast for most
@@ -54,6 +56,8 @@ import org.onebusaway.gtfs.services.GtfsMutableRelationalDao;
 public class GtfsRelationalDaoImpl extends GtfsDaoImpl implements
     GtfsMutableRelationalDao {
 
+  private static Logger _log = LoggerFactory.getLogger(GtfsRelationalDaoImpl.class);
+  
   private Map<AgencyAndId, List<String>> _tripAgencyIdsByServiceId = null;
 
   private Map<Agency, List<Route>> _routesByAgency = null;
@@ -274,23 +278,9 @@ public class GtfsRelationalDaoImpl extends GtfsDaoImpl implements
       case 1:
         return calendars.get(0);
     }
+    _log.error("serviceId=" + serviceId + " has multiple calendars=" + calendars);
     throw new MultipleCalendarsForServiceIdException(serviceId);
   }
-
-  @Override
-  public ServiceCalendar getFirstCalendarForServiceId(AgencyAndId serviceId) {
-    ensureCalendarsByServiceIdRelation();
-    List<ServiceCalendar> calendars = list(_calendarsByServiceId.get(serviceId));
-    switch (calendars.size()) {
-      case 0:
-        return null;
-      case 1:
-        return calendars.get(0);
-      default:
-        return calendars.get(0);
-    }
-  }
-
   
   @Override
   public List<FareRule> getFareRulesForFareAttribute(FareAttribute fareAttribute) {
