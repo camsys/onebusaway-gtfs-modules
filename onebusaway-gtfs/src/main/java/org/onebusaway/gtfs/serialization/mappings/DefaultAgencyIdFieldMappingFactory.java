@@ -31,8 +31,6 @@ import org.onebusaway.gtfs.model.Trip;
 import org.onebusaway.gtfs.serialization.GtfsEntitySchemaFactory;
 import org.onebusaway.gtfs.serialization.GtfsReader;
 import org.onebusaway.gtfs.serialization.GtfsReaderContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A {@link FieldMappingFactory} implementation that produces a
@@ -66,7 +64,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultAgencyIdFieldMappingFactory implements FieldMappingFactory {
 
-  private static Logger _log = LoggerFactory.getLogger(DefaultAgencyIdFieldMappingFactory.class);
   private String _agencyIdPath = null;
 
   public DefaultAgencyIdFieldMappingFactory() {
@@ -111,11 +108,7 @@ public class DefaultAgencyIdFieldMappingFactory implements FieldMappingFactory {
         return;
 
       String agencyId = resolveAgencyId(context, object);
-      if (agencyId == null) {
-        _log.error("missing agencyId for object " + object);
-        return;
-      }
-      //_log.error("looking for fieldName=" + _csvFieldName);
+
       String id = (String) csvValues.get(_csvFieldName);
       AgencyAndId agencyAndId = new AgencyAndId(agencyId, id);
       object.setPropertyValue(_objFieldName, agencyAndId);

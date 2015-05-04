@@ -378,5 +378,4 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   public <T> void clearAllEntitiesForType(Class<T> type) {
     _ops.clearAllEntitiesForType(type);
   }
-
 }
