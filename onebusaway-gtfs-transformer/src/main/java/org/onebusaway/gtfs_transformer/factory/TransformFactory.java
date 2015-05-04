@@ -16,26 +16,6 @@
  */
 package org.onebusaway.gtfs_transformer.factory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,9 +40,12 @@ import org.onebusaway.gtfs_transformer.collections.ServiceIdKey;
 import org.onebusaway.gtfs_transformer.collections.ServiceIdKeyMatch;
 import org.onebusaway.gtfs_transformer.collections.ShapeIdKey;
 import org.onebusaway.gtfs_transformer.collections.ShapeIdKeyMatch;
-import org.onebusaway.gtfs_transformer.impl.DeferredValueMatcher;
-import org.onebusaway.gtfs_transformer.impl.DeferredValueSetter;
-import org.onebusaway.gtfs_transformer.impl.EntitySchemaCache;
+import org.onebusaway.gtfs_transformer.deferred.DeferredValueMatcher;
+import org.onebusaway.gtfs_transformer.deferred.DeferredValueSetter;
+import org.onebusaway.gtfs_transformer.deferred.EntitySchemaCache;
+import org.onebusaway.gtfs_transformer.deferred.PropertyPathExpressionValueSetter;
+import org.onebusaway.gtfs_transformer.deferred.ReplaceValueSetter;
+import org.onebusaway.gtfs_transformer.deferred.ValueSetter;
 import org.onebusaway.gtfs_transformer.impl.RemoveEntityUpdateStrategy;
 import org.onebusaway.gtfs_transformer.impl.ServiceIdTransformStrategyImpl;
 import org.onebusaway.gtfs_transformer.impl.SimpleModificationStrategy;
@@ -88,6 +71,26 @@ import org.onebusaway.gtfs_transformer.updates.TrimTripTransformStrategy;
 import org.onebusaway.gtfs_transformer.updates.TrimTripTransformStrategy.TrimOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TransformFactory {
 
@@ -120,6 +123,10 @@ public class TransformFactory {
       Arrays.asList(ARG_FILE, ARG_CLASS, ARG_COLLECTION));
 
   private static Pattern _anyMatcher = Pattern.compile("^any\\((.*)\\)$");
+  
+  private static Pattern _pathMatcher = Pattern.compile("^path\\((.*)\\)$");
+  
+  private static Pattern _replaceMatcher = Pattern.compile("^s/(.*)/(.*)/$");
 
   private final GtfsTransformer _transformer;
 
@@ -238,7 +245,7 @@ public class TransformFactory {
       throw new TransformSpecificationMissingArgumentException(line,
           new String[] {ARG_CLASS, ARG_FILE}, ARG_OBJ);
     }
-    Map<String, DeferredValueSetter> propertyUpdates = getPropertyValueSettersFromJsonObject(
+    Map<String, ValueSetter> propertyUpdates = getPropertyValueSettersFromJsonObject(
         entityType, objectSpec, _excludeForObjectSpec);
     EntitySourceImpl source = new EntitySourceImpl(entityType, propertyUpdates);
     AddEntitiesTransformStrategy strategy = getStrategy(AddEntitiesTransformStrategy.class);
@@ -307,7 +314,7 @@ public class TransformFactory {
       return new ServiceIdTransformStrategyImpl(oldServiceId, newServiceId);
     } else {
       Set<String> emptySet = Collections.emptySet();
-      Map<String, DeferredValueSetter> propertyUpdates = getPropertyValueSettersFromJsonObject(
+      Map<String, ValueSetter> propertyUpdates = getPropertyValueSettersFromJsonObject(
           match.getType(), update, emptySet);
       return new SimpleModificationStrategy(propertyUpdates);
     }
@@ -582,12 +589,12 @@ public class TransformFactory {
     }
   }
 
-  private Map<String, DeferredValueSetter> getPropertyValueSettersFromJsonObject(
+  private Map<String, ValueSetter> getPropertyValueSettersFromJsonObject(
       Class<?> entityType, JSONObject obj, Set<String> propertiesToExclude)
       throws JSONException {
     Map<String, Object> map = getPropertyValuesFromJsonObject(obj,
         propertiesToExclude);
-    Map<String, DeferredValueSetter> setters = new HashMap<String, DeferredValueSetter>();
+    Map<String, ValueSetter> setters = new HashMap<String, ValueSetter>();
     for (Map.Entry<String, Object> entry : map.entrySet()) {
       String propertyName = entry.getKey();
       SingleFieldMapping mapping = _schemaCache.getFieldMappingForCsvFieldName(
@@ -595,12 +602,28 @@ public class TransformFactory {
       if (mapping != null) {
         propertyName = mapping.getObjFieldName();
       }
-      DeferredValueSetter setter = new DeferredValueSetter(
-          _transformer.getReader(), _schemaCache, _transformer.getDao(),
-          entry.getValue());
+      ValueSetter setter = createSetterForValue(entry.getValue());
       setters.put(propertyName, setter);
     }
     return setters;
+  }
+
+  private ValueSetter createSetterForValue(Object value) {
+    String stringValue = value.toString();
+    Matcher pathMatcher = _pathMatcher.matcher(stringValue);
+    if (pathMatcher.matches()) {
+      PropertyPathExpression expression = new PropertyPathExpression(
+          pathMatcher.group(1));
+      return new PropertyPathExpressionValueSetter(_transformer.getReader(),
+          _schemaCache, _transformer.getDao(), expression);
+    }
+    Matcher replaceMatcher = _replaceMatcher.matcher(stringValue);
+    if (replaceMatcher.matches()) {
+      return new ReplaceValueSetter(replaceMatcher.group(1),
+          replaceMatcher.group(2));
+    }
+    return new DeferredValueSetter(_transformer.getReader(), _schemaCache,
+        _transformer.getDao(), value);
   }
 
   private Map<String, DeferredValueMatcher> getPropertyValueMatchersFromJsonObject(
@@ -682,10 +705,10 @@ public class TransformFactory {
 
     private final Class<?> _entityType;
 
-    private final Map<String, DeferredValueSetter> _propertySetters;
+    private final Map<String, ValueSetter> _propertySetters;
 
     public EntitySourceImpl(Class<?> entityType,
-        Map<String, DeferredValueSetter> propertySetters) {
+        Map<String, ValueSetter> propertySetters) {
       _entityType = entityType;
       _propertySetters = propertySetters;
     }
@@ -694,9 +717,9 @@ public class TransformFactory {
     public Object create() {
       Object instance = instantiate(_entityType);
       BeanWrapper wrapper = BeanWrapperFactory.wrap(instance);
-      for (Map.Entry<String, DeferredValueSetter> entry : _propertySetters.entrySet()) {
+      for (Map.Entry<String, ValueSetter> entry : _propertySetters.entrySet()) {
         String propertyName = entry.getKey();
-        DeferredValueSetter setter = entry.getValue();
+        ValueSetter setter = entry.getValue();
         setter.setValue(wrapper, propertyName);
       }
       return instance;

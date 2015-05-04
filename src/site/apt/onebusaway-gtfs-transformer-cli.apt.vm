@@ -168,6 +168,41 @@ Types of Transforms
 {"op":"update", "match":{"file":"routes.txt", "route_short_name":"574"}, "update":{"agency_id":"ST"}}
 +---+
 
+  Normally, update values are used as-is.  However, we support a number of
+  special update operations:
+  
+** Find/Replace
+
++---+
+{"op":"update", "match":{"file":"trips.txt"}, "update":{"trip_short_name":"s/North/N/"}}
++---+
+
+  By using <<<s/.../.../>>> syntax in the update value, the update will perform
+  a find-replace operation on the specified property value.  Consider the
+  following example:
+
++---+
+{"op":"update", "match":{"file":"trips.txt"}, "update":{"trip_short_name":"s/North/N/"}}
++---+
+  
+  Here, a trip with a headsign of <<<North Seattle>>> will be updated to
+  <<<N Seattle>>>.
+  
+** Path Expressions 
+
+  By using <<<path(...)>>> syntax in the update value, the expression will be
+  treated as a compound Java bean properties path expression.  This path
+  expression will be evaluated against the target entity to produce the update
+  value.  Consider the following example:
+  
++---+
+{"op":"update", "match":{"file":"trips.txt"}, "update":{"trip_short_name":"path(route.longName)"}}
++---+
+
+  Here, the <<<trip_short_name>>> field is updated for each trip in the feed.
+  The value will be copied from the <<<route_long_name>>> field of each trip's
+  associated route.
+
 * Retain an Entity
 
   We also provide a powerful mechanism for selecting just a sub-set of a feed.  You can apply retain operations to entities you wish to keep and all the supporting entities referenced by the retained entity will be retained as well.  By the same token, unreferenced entities will be pruned.

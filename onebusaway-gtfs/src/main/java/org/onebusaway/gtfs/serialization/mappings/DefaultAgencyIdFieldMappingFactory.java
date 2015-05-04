@@ -122,13 +122,12 @@ public class DefaultAgencyIdFieldMappingFactory implements FieldMappingFactory {
     }
 
     private String resolveAgencyId(CsvEntityContext context, BeanWrapper object) {
-      //_log.error("resolveAgencyId(" + context + ", " + object + ")");
+
       if (_agencyIdPath == null) {
         GtfsReaderContext ctx = (GtfsReaderContext) context.get(GtfsReader.KEY_CONTEXT);
         return ctx.getDefaultAgencyId();
       }
 
-      //_log.error("agencyIdPath=" + _agencyIdPath);
       for (String property : _agencyIdPath.split("\\.")) {
         Object value = object.getPropertyValue(property);
         object = BeanWrapperFactory.wrap(value);
