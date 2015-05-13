@@ -12,7 +12,7 @@
 
   <name>onebusaway-gtfs-modules</name>
   <description>A collection of GTFS libraries and tools.</description>
-  <url>https://github.com/OneBusAway/onebusaway-gtfs-modules/wiki/</url>
+  <url>https://github.com/camsys/onebusaway-gtfs-modules/wiki/</url>
 
   <properties>
     <onebusaway_csv_entities_version>1.1.4</onebusaway_csv_entities_version>
@@ -35,14 +35,14 @@
   </repositories>
 
   <scm>
-    <connection>scm:git:https://github.com/OneBusAway/onebusaway-gtfs-modules.git</connection>
-    <developerConnection>scm:git:https://github.com/OneBusAway/onebusaway-gtfs-modules.git</developerConnection>
-    <url>https://github.com/OneBusAway/onebusaway-gtfs-modules</url>
+    <connection>scm:git:https://github.com/camsys/onebusaway-gtfs-modules.git</connection>
+    <developerConnection>scm:git:https://github.com/camsys/onebusaway-gtfs-modules.git</developerConnection>
+    <url>https://github.com/camsys/onebusaway-gtfs-modules</url>
   </scm>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/OneBusAway/onebusaway-gtfs-modules/issues</url>
+    <url>https://github.com/camsys/onebusaway-gtfs-modules/issues</url>
   </issueManagement>
 
   <distributionManagement>
