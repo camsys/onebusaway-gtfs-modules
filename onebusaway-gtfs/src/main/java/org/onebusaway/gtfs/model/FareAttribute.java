@@ -29,6 +29,9 @@ public final class FareAttribute extends IdentityBean<AgencyAndId> {
   @CsvField(name = "fare_id", mapping = DefaultAgencyIdFieldMappingFactory.class)
   private AgencyAndId id;
 
+  @CsvField(optional = true)
+  private String farePeriodId;
+
   private float price;
 
   private String currencyType;
@@ -53,6 +56,7 @@ public final class FareAttribute extends IdentityBean<AgencyAndId> {
 
   public FareAttribute(FareAttribute fa) {
     this.id = fa.id;
+    this.farePeriodId = fa.farePeriodId;
     this.price = fa.price;
     this.currencyType = fa.currencyType;
     this.paymentMethod = fa.paymentMethod;
@@ -69,6 +73,14 @@ public final class FareAttribute extends IdentityBean<AgencyAndId> {
   @Override
   public void setId(AgencyAndId id) {
     this.id = id;
+  }
+
+  public String getFarePeriodId() {
+    return farePeriodId;
+  }
+
+  public void setFarePeriodId(String farePeriodId) {
+    this.farePeriodId = farePeriodId;
   }
 
   public float getPrice() {
