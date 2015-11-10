@@ -83,7 +83,10 @@ public class AgencyAndId implements Serializable, Comparable<AgencyAndId> {
 
   @Override
   public int hashCode() {
-    return agencyId.hashCode() ^ id.hashCode();
+    int hash = 93;
+    if (agencyId != null) hash += agencyId.hashCode();
+    if (id != null) hash += id.hashCode();
+    return hash;
   }
 
   @Override
