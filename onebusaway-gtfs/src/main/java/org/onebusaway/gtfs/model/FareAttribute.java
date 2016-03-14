@@ -44,6 +44,13 @@ public final class FareAttribute extends IdentityBean<AgencyAndId> {
   @CsvField(optional = true)
   private int transferDuration = MISSING_VALUE;
 
+  /** The following are extensions to the GTFS spec to support Seattle fare types. */
+  @CsvField(optional = true)
+  private float youthPrice;
+  
+  @CsvField(optional = true)
+  private float seniorPrice;
+
   /**
    * This is a proposed extension to the GTFS spec
    */
@@ -158,4 +165,21 @@ public final class FareAttribute extends IdentityBean<AgencyAndId> {
   public String toString() {
     return "<FareAttribute " + getId() + ">";
   }
+
+  public float getYouthPrice() {
+	return youthPrice;
+  }
+
+  public void setYouthPrice(float youthPrice) {
+	this.youthPrice = youthPrice;
+  }
+
+  public float getSeniorPrice() {
+	return seniorPrice;
+  }
+
+  public void setSeniorPrice(float seniorPrice) {
+	this.seniorPrice = seniorPrice;
+  }
+
 }
