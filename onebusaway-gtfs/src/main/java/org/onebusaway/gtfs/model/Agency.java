@@ -41,6 +41,9 @@ public final class Agency extends IdentityBean<String> {
   private String phone;
 
   @CsvField(optional = true)
+  private String email;
+
+  @CsvField(optional = true)
   private String fareUrl;
 
   public Agency() {
@@ -54,6 +57,7 @@ public final class Agency extends IdentityBean<String> {
     this.timezone = a.timezone;
     this.lang = a.lang;
     this.phone = a.phone;
+    this.email = a.email;
   }
 
   public String getId() {
@@ -103,7 +107,15 @@ public final class Agency extends IdentityBean<String> {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
+  
+  public String getEmail() {
+    return email;
+  }
+  
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  
   public String getFareUrl() {
     return fareUrl;
   }
