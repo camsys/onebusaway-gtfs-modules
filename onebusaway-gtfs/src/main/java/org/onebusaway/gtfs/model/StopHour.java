@@ -22,7 +22,7 @@ import org.onebusaway.gtfs.serialization.mappings.DefaultAgencyIdFieldMappingFac
 import org.onebusaway.gtfs.serialization.mappings.EntityFieldMappingFactory;
 import org.onebusaway.gtfs.serialization.mappings.StopTimeFieldMappingFactory;
 
-@CsvFields(filename = "stop_hours.txt")
+@CsvFields(filename = "stop_hours.txt", required = false)
 public final class StopHour extends IdentityBean<Integer>  {
 
     private static final long serialVersionUID =2L;
