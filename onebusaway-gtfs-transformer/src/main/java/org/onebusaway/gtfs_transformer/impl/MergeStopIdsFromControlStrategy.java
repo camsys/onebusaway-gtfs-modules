@@ -27,13 +27,14 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * using crontrol file re-map GTFS stop ids and other stop properties
+ * using control file re-map GTFS stop ids and other stop properties
  */
 public class MergeStopIdsFromControlStrategy implements GtfsTransformStrategy {
 
     private final Logger _log = LoggerFactory.getLogger(MergeStopIdsFromControlStrategy.class);
 
     private static final int LOCATION_NAME_INDEX = 0;
+    private static final int DIRECTION_INDEX = 3;
     private static final int ATIS_ID_INDEX = 6;
 
     @Override
@@ -54,12 +55,19 @@ public class MergeStopIdsFromControlStrategy implements GtfsTransformStrategy {
                 _log.info("bad control line {}", controlLine);
                 continue;
             }
+
             String gtfsId = controlArray[LOCATION_NAME_INDEX];
+            String gtfsDirection = controlArray[DIRECTION_INDEX];
+
             String atisId = controlArray[ATIS_ID_INDEX];
 
-            Stop gtfsStop = reference.getStopForId(new AgencyAndId(getReferenceAgencyId(reference), gtfsId));
+            String constructedGtfsId = gtfsId + gtfsDirection;
+
+            Stop gtfsStop = reference.getStopForId(new AgencyAndId(getReferenceAgencyId(reference), constructedGtfsId));
+
             if (gtfsStop == null) {
-                _log.info("missing reference stop {} for agency {}", gtfsId, getReferenceAgencyId(reference));
+                _log.info("missing reference stop {} for agency {}", constructedGtfsId,
+                        getReferenceAgencyId(reference));
                 unmatched++;
                 continue;
             }
