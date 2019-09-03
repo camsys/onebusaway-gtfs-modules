@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-gtfs-modules</artifactId>
-    <version>1.3.18-nyc-SNAPSHOT</version>
+    <version>1.3.74-SNAPSHOT</version>
   </parent>
 
   <repositories>
@@ -59,7 +59,11 @@
       <artifactId>wsf-api</artifactId>
       <version>1.0</version>
     </dependency>
-    
+    <dependency>
+      <groupId>org.onebusaway</groupId>
+      <artifactId>onebusaway-cloud-noop</artifactId>
+      <version>0.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>

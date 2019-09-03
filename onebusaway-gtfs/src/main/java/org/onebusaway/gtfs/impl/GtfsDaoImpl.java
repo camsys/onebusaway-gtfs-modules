@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.onebusaway.gtfs.model.Agency;
 import org.onebusaway.gtfs.model.AgencyAndId;
+import org.onebusaway.gtfs.model.Area;
 import org.onebusaway.gtfs.model.Block;
 import org.onebusaway.gtfs.model.FareAttribute;
 import org.onebusaway.gtfs.model.FareRule;
@@ -28,6 +29,7 @@ import org.onebusaway.gtfs.model.FeedInfo;
 import org.onebusaway.gtfs.model.Frequency;
 import org.onebusaway.gtfs.model.IdentityBean;
 import org.onebusaway.gtfs.model.Pathway;
+import org.onebusaway.gtfs.model.Ridership;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.ServiceCalendar;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
@@ -137,6 +139,10 @@ public class GtfsDaoImpl extends GenericDaoImpl implements GtfsMutableDao {
     return getAllEntitiesForType(Trip.class);
   }
 
+  public Collection<Ridership> getAllRiderships() {
+    return getAllEntitiesForType(Ridership.class);
+  }
+
   public Block getBlockForId(int id) {
     return getEntityForId(Block.class, id);
   }
@@ -158,7 +164,7 @@ public class GtfsDaoImpl extends GenericDaoImpl implements GtfsMutableDao {
   }
 
   @Override
-  public FeedInfo getFeedInfoForId(int id) {
+  public FeedInfo getFeedInfoForId(String id) {
     return getEntityForId(FeedInfo.class, id);
   }
 
@@ -202,6 +208,10 @@ public class GtfsDaoImpl extends GenericDaoImpl implements GtfsMutableDao {
 
   public Trip getTripForId(AgencyAndId id) {
     return getEntityForId(Trip.class, id);
+  }
+
+  public Collection<Area> getAllAreas() {
+    return getAllEntitiesForType(Area.class);
   }
 
   /****

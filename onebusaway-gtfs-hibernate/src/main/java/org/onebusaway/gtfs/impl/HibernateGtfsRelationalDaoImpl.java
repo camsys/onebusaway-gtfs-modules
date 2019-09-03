@@ -27,6 +27,7 @@ import java.util.Set;
 import org.hibernate.SessionFactory;
 import org.onebusaway.gtfs.model.Agency;
 import org.onebusaway.gtfs.model.AgencyAndId;
+import org.onebusaway.gtfs.model.Area;
 import org.onebusaway.gtfs.model.Block;
 import org.onebusaway.gtfs.model.FareAttribute;
 import org.onebusaway.gtfs.model.FareRule;
@@ -34,6 +35,7 @@ import org.onebusaway.gtfs.model.FeedInfo;
 import org.onebusaway.gtfs.model.Frequency;
 import org.onebusaway.gtfs.model.IdentityBean;
 import org.onebusaway.gtfs.model.Pathway;
+import org.onebusaway.gtfs.model.Ridership;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.ServiceCalendar;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
@@ -159,6 +161,9 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   }
 
   @Override
+  public Collection<Ridership> getAllRiderships() { return _ops.find("FROM Ridership"); }
+
+  @Override
   public Agency getAgencyForId(String id) {
     return (Agency) _ops.get(Agency.class, id);
   }
@@ -167,7 +172,7 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   public Block getBlockForId(int id) {
     return (Block) _ops.get(Block.class, id);
   }
-  
+
   @Override
   public FareAttribute getFareAttributeForId(AgencyAndId id) {
     return (FareAttribute) _ops.get(FareAttribute.class, id);
@@ -179,7 +184,7 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   }
 
   @Override
-  public FeedInfo getFeedInfoForId(int id) {
+  public FeedInfo getFeedInfoForId(String id) {
     return (FeedInfo) _ops.get(FeedInfo.class, id);
   }
 
@@ -231,6 +236,11 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   @Override
   public Trip getTripForId(AgencyAndId id) {
     return (Trip) _ops.get(Trip.class, id);
+  }
+
+  @Override
+  public Collection<Area> getAllAreas() {
+    return _ops.find("from Area");
   }
 
   /****
@@ -343,6 +353,12 @@ public class HibernateGtfsRelationalDaoImpl implements GtfsMutableRelationalDao 
   public List<FareRule> getFareRulesForFareAttribute(FareAttribute fareAttribute) {
     return _ops.findByNamedQueryAndNamedParam("fareRulesForFareAttribute",
         "fareAttribute", fareAttribute);
+  }
+
+  @Override
+  public List<Ridership> getRidershipForTrip(AgencyAndId tripId) {
+    return _ops.findByNamedQueryAndNamedParam("ridershipsForTripId",
+            "tripId", tripId.getId());
   }
 
   /****

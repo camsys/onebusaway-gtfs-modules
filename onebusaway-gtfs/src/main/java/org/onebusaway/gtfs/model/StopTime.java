@@ -64,6 +64,24 @@ public final class StopTime extends IdentityBean<Integer> implements
   @CsvField(optional = true)
   private double shapeDistTraveled = MISSING_VALUE;
 
+  @CsvField(optional = true)
+  private int continuousPickup = MISSING_VALUE;
+
+  @CsvField(optional = true)
+  private int continuousDropOff = MISSING_VALUE;
+
+  @CsvField(optional = true, name = "start_service_area_id", mapping = EntityFieldMappingFactory.class, order = -2)
+  private Area startServiceArea;
+
+  @CsvField(optional = true, name = "end_service_area_id", mapping = EntityFieldMappingFactory.class, order = -2)
+  private Area endServiceArea;
+
+  @CsvField(optional = true)
+  private double startServiceAreaRadius = MISSING_VALUE;
+
+  @CsvField(optional = true)
+  private double endServiceAreaRadius = MISSING_VALUE;
+
   @CsvField(ignore = true)
   private transient StopTimeProxy proxy = null;
 
@@ -74,6 +92,10 @@ public final class StopTime extends IdentityBean<Integer> implements
   /** Extension to support departure buffer https://groups.google.com/forum/#!msg/gtfs-changes/sHTyliLgMQk/gfpaGkI_AgAJ */
   @CsvField(optional = true, defaultValue = "-1")
   private int departureBuffer;
+
+  /** Support track extension */
+  @CsvField(optional = true)
+  private String track;
 
   public StopTime() {
 
@@ -93,7 +115,12 @@ public final class StopTime extends IdentityBean<Integer> implements
     this.stopSequence = st.stopSequence;
     this.timepoint = st.timepoint;
     this.trip = st.trip;
+    this.startServiceArea = st.startServiceArea;
+    this.endServiceArea = st.endServiceArea;
+    this.startServiceAreaRadius = st.startServiceAreaRadius;
+    this.endServiceAreaRadius = st.endServiceAreaRadius;
     this.departureBuffer = st.departureBuffer;
+    this.track = st.track;
   }
 
   public Integer getId() {
@@ -318,6 +345,22 @@ public final class StopTime extends IdentityBean<Integer> implements
     this.dropOffType = dropOffType;
   }
 
+  public int getContinuousPickup() {
+    return continuousPickup;
+  }
+
+  public void setContinuousPickup(int continuousPickup) {
+    this.continuousPickup = continuousPickup;
+  }
+
+  public int getContinuousDropOff() {
+    return continuousDropOff;
+  }
+
+  public void setContinuousDropOff(int continuousDropOff) {
+    this.continuousDropOff = continuousDropOff;
+  }
+
   public boolean isShapeDistTraveledSet() {
     if (proxy != null) {
       return proxy.isShapeDistTraveledSet();
@@ -356,12 +399,52 @@ public final class StopTime extends IdentityBean<Integer> implements
     this.farePeriodId = farePeriodId;
   }
 
+  public Area getStartServiceArea() {
+    return startServiceArea;
+  }
+
+  public void setStartServiceArea(Area startServiceArea) {
+    this.startServiceArea = startServiceArea;
+  }
+
+  public Area getEndServiceArea() {
+    return endServiceArea;
+  }
+
+  public void setEndServiceArea(Area endServiceArea) {
+    this.endServiceArea = endServiceArea;
+  }
+
+  public double getStartServiceAreaRadius() {
+    return startServiceAreaRadius;
+  }
+
+  public void setStartServiceAreaRadius(double startServiceAreaRadius) {
+    this.startServiceAreaRadius = startServiceAreaRadius;
+  }
+
+  public double getEndServiceAreaRadius() {
+    return endServiceAreaRadius;
+  }
+
+  public void setEndServiceAreaRadius(double endServiceAreaRadius) {
+    this.endServiceAreaRadius = endServiceAreaRadius;
+  }
+
   public int getDepartureBuffer() {
     return departureBuffer;
   }
 
   public void setDepartureBuffer(int departureBuffer) {
     this.departureBuffer = departureBuffer;
+  }
+
+  public String getTrack() {
+    return track;
+  }
+
+  public void setTrack(String track) {
+    this.track = track;
   }
 
   public int compareTo(StopTime o) {
@@ -382,10 +465,16 @@ public final class StopTime extends IdentityBean<Integer> implements
     return proxy;
   }
 
+  public String displayArrival() {
+    return "StopTime(Arrival time="
+            + StopTimeFieldMappingFactory.getSecondsAsString(getArrivalTime())
+           + ")";
+  }
+
   @Override
   public String toString() {
-    return "StopTime(seq=" + getStopSequence() + " stop=" + getStop().getId()
-        + " trip=" + getTrip().getId() + " times="
+    return "StopTime(seq=" + getStopSequence() + " stop=" + (getStop()==null?"NuLl":getStop().getId())
+        + " trip=" + (getTrip()==null?"NuLl":getTrip().getId()) + " times="
         + StopTimeFieldMappingFactory.getSecondsAsString(getArrivalTime())
         + "-"
         + StopTimeFieldMappingFactory.getSecondsAsString(getDepartureTime())
