@@ -111,6 +111,10 @@ public class MTAEntrancesStrategy implements GtfsTransformStrategy {
     private int walkwayTraversalTime = 60;
 
     @CsvField(optional = true)
+    private int doorTraversalTime = 60;
+
+
+    @CsvField(optional = true)
     private int elevatorTraversalTime = 120;
 
     public String getName() {
@@ -271,14 +275,25 @@ public class MTAEntrancesStrategy implements GtfsTransformStrategy {
                         wheelchairTraversalTime = elevatorTraversalTime;
                         break;
                     case "Door":
+                        pathwayMode = PATHWAY_MODE_DOOR;
+                        traversalTime = doorTraversalTime;
+                        wheelchairTraversalTime = traversalTime * 2;
+                        break;
                     case "Entrance":
+
                     default:
                         pathwayMode = PATHWAY_MODE_GENERIC;
                         traversalTime = genericPathwayTraversalTime;
                         wheelchairTraversalTime = traversalTime * 2;
                 }
                 String id = entrance.getEntranceType() + "-" + i;
-                wheelchairTraversalTime = contextualAccessibility ? wheelchairTraversalTime : -1;
+
+                if (contextualAccessibility && !accessibleEntranceTypes.contains(entrance.getEntranceType())) {
+                    wheelchairTraversalTime = -1;
+                }
+                //wheelchairTraversalTime = contextualAccessibility ? wheelchairTraversalTime : -1;
+
+                _log.info("id: {}, contextualAccessibility: {}, wheelchairTraversalTime: {}", id, contextualAccessibility, wheelchairTraversalTime);
                 if (stopsHaveParents) {
                     if (!entrance.hasDirection() || entrance.getDirection().equals("N")) {
                         pathwayUtil.createPathway(entranceStop, group.uptown, pathwayMode, traversalTime, wheelchairTraversalTime, id, null);
@@ -324,6 +339,7 @@ public class MTAEntrancesStrategy implements GtfsTransformStrategy {
                 }
                 if (entrance == null && type.shouldCreateStreetEntrance()) {
                     entrance = createAccessibleStreetEntrance(group.parent);
+                    //_log.info(" elevator={}, loc={}, entrance={}", e.getId(), e.getLoc(), entrance.toString());
                 }
 
                 if (type.shouldCreateMezzanine()) {

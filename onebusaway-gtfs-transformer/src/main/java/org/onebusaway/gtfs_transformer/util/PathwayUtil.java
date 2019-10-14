@@ -33,6 +33,7 @@ public class PathwayUtil {
     public static final int PATHWAY_MODE_TRAVELATOR = 3;
     public static final int PATHWAY_MODE_ESCALATOR = 4;
     public static final int PATHWAY_MODE_ELEVATOR = 5;
+    public static final int PATHWAY_MODE_DOOR = 6;
 
     private String agencyId;
 
