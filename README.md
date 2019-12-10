@@ -4,4 +4,4 @@ This is a legacy repo containing an old fork of OneBusAway/onebusaway-gtfs-modul
 
 You most likely want to go there, so please do!
 
-http://githuc.com/OneBusAway/onebusaway-gtfs-modules
+http://github.com/OneBusAway/onebusaway-gtfs-modules
