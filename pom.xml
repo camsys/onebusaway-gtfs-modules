@@ -4,7 +4,7 @@
 
   <groupId>org.onebusaway</groupId>
   <artifactId>onebusaway-gtfs-modules</artifactId>
-  <version>1.4.19-SNAPSHOT</version>
+  <version>1.4.19</version>
   <packaging>pom</packaging>
 
   <name>onebusaway-gtfs-modules</name>
