@@ -18,6 +18,7 @@ package org.onebusaway.gtfs.model;
 import java.util.Optional;
 import org.onebusaway.csv_entities.schema.annotations.CsvField;
 import org.onebusaway.csv_entities.schema.annotations.CsvFields;
+import org.onebusaway.gtfs.serialization.mappings.CurrencyMappingFactory;
 import org.onebusaway.gtfs.serialization.mappings.DefaultAgencyIdFieldMappingFactory;
 import org.onebusaway.gtfs.serialization.mappings.EntityFieldMappingFactory;
 import org.onebusaway.gtfs.serialization.mappings.FareProductFieldMappingFactory;
@@ -32,7 +33,7 @@ public final class FareProduct extends IdentityBean<AgencyAndId> {
   private AgencyAndId fareProductId;
   @CsvField(optional = true, name = "fare_product_name")
   private String name;
-  @CsvField
+  @CsvField(mapping = CurrencyMappingFactory.class)
   private float amount = MISSING_VALUE;
   @CsvField
   private String currency;
