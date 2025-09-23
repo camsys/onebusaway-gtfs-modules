@@ -38,6 +38,8 @@ public final class RiderCategory extends IdentityBean<AgencyAndId> {
   private int maxAge = MISSING_VALUE;
   @CsvField(optional = true)
   private String eligibilityUrl;
+  @CsvField(optional = true)
+  private int isDefaultFareCategory = 0;
 
   public String getName() {
     return name;
@@ -69,6 +71,14 @@ public final class RiderCategory extends IdentityBean<AgencyAndId> {
 
   public void setEligibilityUrl(String eligibilityUrl) {
     this.eligibilityUrl = eligibilityUrl;
+  }
+
+  public int getIsDefaultFareCategory() {
+    return isDefaultFareCategory;
+  }
+
+  public void setIsDefaultFareCategory(int isDefaultFareCategory) {
+    this.isDefaultFareCategory = isDefaultFareCategory;
   }
 
   @Override
