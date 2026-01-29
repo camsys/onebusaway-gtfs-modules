@@ -103,6 +103,8 @@ public class GtfsReader extends CsvEntityReader {
     _entityClasses.add(DirectionNameException.class);
     _entityClasses.add(WrongWayConcurrency.class);
     _entityClasses.add(DirectionEntry.class);
+    _entityClasses.add(Networks.class);
+    _entityClasses.add(RouteNetworks.class);
     _entityClasses.add(AlternateStopNameException.class);
 
     CsvTokenizerStrategy tokenizerStrategy = new CsvTokenizerStrategy();
@@ -390,6 +392,10 @@ public class GtfsReader extends CsvEntityReader {
       } else if (entity instanceof Icon){
         Icon icon = (Icon) entity;
         registerAgencyId(Icon.class, icon.getId());
+      }
+      else if (entity instanceof Networks){
+        Networks networks = (Networks) entity;
+        registerAgencyId(Networks.class, networks.getId());
       }
 
       if (entity instanceof IdentityBean<?>) {

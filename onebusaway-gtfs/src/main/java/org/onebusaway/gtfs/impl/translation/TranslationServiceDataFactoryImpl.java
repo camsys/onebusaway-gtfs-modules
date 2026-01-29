@@ -51,6 +51,10 @@ public class TranslationServiceDataFactoryImpl implements TranslationServiceData
 
     private static final String FACILITY_TABLE_NAME = "facilities";
 
+    private static final String NETWORKS_TABLE_NAME = "networks";
+
+    private static final String ROUTE_NETWORKS_TABLE_NAME = "route_networks";
+
     private static final String FACILITY_PROPERTY_TABLE_NAME = "facilities_properties";
 
     private static final String FACILITY_PROPERTY_DEFINITION_TABLE_NAME = "facilities_properties_definitions";
@@ -138,6 +142,10 @@ public class TranslationServiceDataFactoryImpl implements TranslationServiceData
                 return WrongWayConcurrency.class;
             case DIRECTION_ENTRY_TABLE_NAME:
                 return DirectionEntry.class;
+            case NETWORKS_TABLE_NAME:
+                return Networks.class;
+            case ROUTE_NETWORKS_TABLE_NAME:
+                return RouteNetworks.class;
             case ALTERNATE_STOP_NAME_EXCEPTION_TABLE_NAME:
                 return AlternateStopNameException.class;
         }
