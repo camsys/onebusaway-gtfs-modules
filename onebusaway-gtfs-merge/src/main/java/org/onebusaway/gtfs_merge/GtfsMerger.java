@@ -71,6 +71,8 @@ public class GtfsMerger {
 
   private EntityMergeStrategy _metadataStrategy = new MetadataMergeStrategy();
 
+  private EntityMergeStrategy _translationStrategy = new TranslationMergeStrategy();
+
   public void setAgencyStrategy(EntityMergeStrategy agencyStrategy) {
     _agencyStrategy = agencyStrategy;
   }
@@ -119,6 +121,8 @@ public class GtfsMerger {
   public void setFeedInfoStrategy(EntityMergeStrategy feedInfoStrategy) { _feedInfoStrategy = feedInfoStrategy; }
 
   public void setMetadataStrategy(EntityMergeStrategy metadataStrategy) { _metadataStrategy = metadataStrategy; }
+
+  public void setTranslationStrategy(EntityMergeStrategy translationStrategy) { _translationStrategy = translationStrategy; }
 
   public EntityMergeStrategy getEntityMergeStrategyForEntityType(
       Class<?> entityType) {
@@ -229,6 +233,7 @@ public class GtfsMerger {
     strategies.add(_fareRuleStrategy);
     strategies.add(_feedInfoStrategy);
     strategies.add(_metadataStrategy);
+    strategies.add(_translationStrategy);
   }
 
 }

@@ -1,0 +1,19 @@
+Below is a list of the changes included in the SC-Spring-2026.5 release of Sound Transit GTFS data.
+
+Schedule Changes
+* 1 & 2 Lines:
+  * April 6-10 Single tracking at Shoreline South for Pinehurst work
+  * April 14-16 late night service between BelRed and Downtown Redmond replaced by bus service
+* T Line
+  * April 6-9 bus replacement service during rail replacement
+* Sounder
+  * updated game train start times for May 17 and July 5
+
+Route Changes
+* new 2 Line Shuttle route
+
+Stop Changes
+* new stops for T Line and 2 Line shuttles
+
+Other Changes
+* none

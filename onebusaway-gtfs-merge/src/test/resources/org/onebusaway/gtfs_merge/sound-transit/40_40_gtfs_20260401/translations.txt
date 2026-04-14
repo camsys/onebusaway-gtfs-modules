@@ -1,0 +1,4 @@
+table_name,field_name,language,translation,record_id,record_sub_id,field_value
+routes,route_long_name,es,Link - Bus de Reemplazo,1-SHUTTLE,,
+routes,route_long_name,zh-Hans,Link 替代接驳巴士,1-SHUTTLE,,
+routes,route_long_name,ar,Link - حافلة بديلة,1-SHUTTLE,,
