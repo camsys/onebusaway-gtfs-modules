@@ -31,7 +31,8 @@ public class LevelMergeStrategy extends
 
   @Override
   protected boolean entitiesAreIdentical(Level a, Level b) {
-    return Objects.equals(a.getIndex(), b.getIndex())
+    return Objects.equals(a.getId(), b.getId())
+        && Objects.equals(a.getIndex(), b.getIndex())
         && Objects.equals(a.getName(), b.getName());
   }
 }
